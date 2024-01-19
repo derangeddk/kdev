@@ -39,6 +39,6 @@ kind create cluster --config=spec/cluster.yaml
 for node in $(kind get nodes --name "$KIND_NAME"); do
   docker exec "${node}" mkdir -p "/etc/containerd/certs.d/localhost:5000"
   cat <<EOF | docker exec -i "${node}" cp /dev/stdin "/etc/containerd/certs.d/localhost:5000/hosts.toml"
-[host."http://registry:5000"]
+[host."http://deranged-registry:5000"]
 EOF
 done
