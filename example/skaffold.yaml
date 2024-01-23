@@ -6,8 +6,6 @@ build:
   artifacts:
     - image: example
       context: container
-      docker:
-        dockerfile: container/Dockerfile
 deploy:
   statusCheck: false
   helm:
@@ -16,3 +14,4 @@ deploy:
         chartPath: chart
         setValueTemplates:
           image: localhost:5000/example:{{.IMAGE_TAG_example}}@{{.IMAGE_DIGEST_example}}
+          domain: example.local.deranged.dk
