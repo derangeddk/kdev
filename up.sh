@@ -14,7 +14,6 @@ skaffold config set --global default-repo localhost:5000
 
 
 # 1. Create registry container unless it already exists
-declare REGISTRY=deranged-registry
 if [ "$(docker inspect -f '{{.State.Status}}' "$REGISTRY" 2>/dev/null)" == 'exited' ]; then
   echo "Registry container was stopped, starting container"
   docker start "$REGISTRY"
@@ -26,7 +25,8 @@ fi
 if [ "$(docker inspect -f '{{.State.Running}}' "$REGISTRY" 2>/dev/null)" == '' ]; then
   echo "Creating registry container"
   docker run -d --restart=always --name "$REGISTRY" \
-    --net kind -p 5000:5000 \
+    --restart no \
+    --net kind -p 127.0.0.1:5000:5000 \
     -v registry:/var/lib/registry \
     registry:2
 fi
@@ -35,8 +35,13 @@ fi
 # 2. Create kind cluster
 kind create cluster --config=spec/cluster.yaml
 
-# 3. Configure nodes to be able to pull from local container registry
+
+# 3. Configure nodes
 for node in $(kind get nodes --name "$KIND_NAME"); do
+  # dont restart kind cluster automatically
+  docker update --restart=no "${node}"
+
+  # configure to be able to pull from local container registry
   docker exec "${node}" mkdir -p "/etc/containerd/certs.d/localhost:5000"
   cat <<EOF | docker exec -i "${node}" cp /dev/stdin "/etc/containerd/certs.d/localhost:5000/hosts.toml"
 [host."http://deranged-registry:5000"]
