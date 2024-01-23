@@ -9,7 +9,5 @@ source constants.sh
 
 kind delete cluster --name "$KIND_NAME"
 
-if [ "$1" = '--all' ]; then
-    docker kill "$REGISTRY"
-    docker rm "$REGISTRY"
-fi
+docker kill "$REGISTRY"
+docker rm "$REGISTRY"
