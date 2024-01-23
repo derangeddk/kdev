@@ -15,12 +15,15 @@ nodes:
         node-labels: "ingress-ready=true"
   extraPortMappings:
   - containerPort: 30080
+    listenAddress: 127.0.0.1
     hostPort: 80
     protocol: TCP
   - containerPort: 30443
+    listenAddress: 127.0.0.1
     hostPort: 443
     protocol: TCP
   - containerPort: 30025
+    listenAddress: 127.0.0.1
     hostPort: 25
     protocol: TCP
 - role: worker
