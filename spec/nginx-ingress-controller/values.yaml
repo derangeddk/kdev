@@ -166,9 +166,9 @@ dhParam: ""
 ## tcp:
 ##   8080: "default/example-tcp-svc:9000"
 ##
-tcp: {
-  25: "default/mailhog:1025"
-}
+tcp:
+  25: default/mailhog:1025
+  27017: default/percona-mongodb-serve-rs0:27017
 ## @param udp UDP service key:value pairs
 ## ref: https://github.com/kubernetes/contrib/tree/master/ingress/controllers/nginx/examples/udp
 ## e.g:
@@ -798,6 +798,7 @@ service:
     https: 30443
     tcp:
       25: 30025
+      27017: 37017
     udp: {}
   ## @param service.annotations Annotations for controller service
   ## This can be used to set the LoadBalancer service type to internal only.
