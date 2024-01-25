@@ -78,7 +78,6 @@ image:
 containerPorts:
   http: 80
   https: 443
-  smtp: 25
   metrics: 10254
 ## @param hostAliases Deployment pod host aliases
 ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
@@ -783,13 +782,11 @@ service:
   ports:
     http: 80
     https: 443
-    smtp: 25
   ## @param service.targetPorts [object] Map the controller service HTTP/HTTPS port
   ##
   targetPorts:
     http: http
     https: https
-    smtp: smtp
   ## @param service.nodePorts [object] Specify the nodePort value(s) for the LoadBalancer and NodePort service types.
   ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
   ##
