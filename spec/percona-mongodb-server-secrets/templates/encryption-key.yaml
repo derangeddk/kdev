@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: percona-mongodb-serve-mongodb-encryption-key
+data:
+  encryption-key: RVpab1l0MmZXcDFtNDFTbEZocFlMaWUwRVJVQ3d1cmF4YTlad2dRY01IZz0=

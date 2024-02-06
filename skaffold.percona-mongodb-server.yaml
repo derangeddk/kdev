@@ -7,6 +7,8 @@ requires:
 deploy:
   helm:
     releases:
+      - name: percona-mongodb-server-secrets
+        chartPath: spec/percona-mongodb-server-secrets
       - name: percona-mongodb-server
         repo: https://percona.github.io/percona-helm-charts
         remoteChart: psmdb-db
