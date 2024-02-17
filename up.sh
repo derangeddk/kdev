@@ -6,7 +6,10 @@
 source constants.sh
 
 # TODO verify skaffold version perhaps even download latest
-echo "Skaffold version: $(skaffold version)"
+echo "kind version: $(kind version)"
+echo "helm version: $(helm version)"
+echo "skaffold version: $(skaffold version)"
+echo "kubeseal version: $(kubeseal version)" # https://github.com/bitnami-labs/sealed-secrets/releases/
 
 # Set some skaffold default settings
 skaffold config set --global kind-disable-load true
