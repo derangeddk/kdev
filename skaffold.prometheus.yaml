@@ -6,6 +6,8 @@ deploy:
   helm:
     releases:
       - name: prometheus-stack
-        chartPath: spec/prometheus-stack
+        chartPath: ../infrastructure/charts/prometheus-stack
         valuesFiles: [ spec/prometheus-stack/values.yaml ]
         skipBuildDependencies: true
+      - name: prometheus-stack-secret
+        chartPath: spec/prometheus-stack-secret
