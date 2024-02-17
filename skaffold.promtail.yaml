@@ -1,0 +1,9 @@
+apiVersion: skaffold/v4beta8
+kind: Config
+metadata:
+  name: promtail
+deploy:
+  helm:
+    releases:
+      - name: promtail
+        chartPath: ../infrastructure/charts/promtail

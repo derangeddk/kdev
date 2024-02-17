@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+type: Opaque
+stringData:
+  url: https://hooks.slack.com/services/xxx/yyy/zzz
+metadata:
+  name: alertmanager-custom-secret
+  namespace: default
