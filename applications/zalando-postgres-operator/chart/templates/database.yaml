@@ -1,0 +1,28 @@
+apiVersion: acid.zalan.do/v1
+kind: postgresql
+metadata:
+  name: postgresql
+spec:
+  teamId: team
+  volume:
+    size: 1Gi
+  numberOfInstances: 1
+  users:
+    user:  # database owner
+    - superuser
+    - createdb
+    standby:
+    - superuser
+  preparedDatabases:
+    database: # database name
+      defaultUsers: true
+      secretNamespace: default
+      schemas: # schema name
+        schema: {}
+  postgresql:
+    version: "16"
+  tls:
+    secretName: postgresql-cert
+  spiloRunAsUser: 101
+  spiloRunAsGroup: 103
+  spiloFSGroup: 103

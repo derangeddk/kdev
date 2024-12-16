@@ -4,4 +4,4 @@
 # disable unused variable rule
 
 declare REGISTRY=deranged-registry
-declare KIND_NAME=deranged
+declare KIND_NAME=local-deranged-dk

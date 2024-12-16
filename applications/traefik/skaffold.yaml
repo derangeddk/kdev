@@ -1,0 +1,12 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: traefik
+deploy:
+  helm:
+    releases:
+      - name: traefik
+        repo: https://traefik.github.io/charts
+        remoteChart: traefik
+        version: 24.0.0
+        valuesFiles: [ values.yaml ]

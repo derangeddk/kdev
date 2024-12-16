@@ -1,0 +1,14 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: ory-hydra
+deploy:
+  helm:
+    releases:
+      - name: ory-hydra-storage
+        chartPath: chart
+      - name: ory-hydra
+        repo: https://k8s.ory.sh/helm/charts
+        remoteChart: hydra
+        version: 0.45.0
+        valuesFiles: [ values.yaml ]

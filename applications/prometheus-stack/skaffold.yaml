@@ -1,0 +1,13 @@
+apiVersion: skaffold/v4beta8
+kind: Config
+metadata:
+  name: prometheus-stack
+deploy:
+  helm:
+    releases:
+      - name: prometheus-stack-secret
+        chartPath: chart
+      - name: prometheus-stack
+        chartPath: ../infrastructure/charts/prometheus-stack
+        valuesFiles: [ spec/prometheus-stack/values.yaml ]
+        skipBuildDependencies: true

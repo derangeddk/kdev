@@ -1,0 +1,15 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: cert-manager
+deploy:
+  helm:
+    releases:
+      - name: cert-manager
+        repo: https://charts.jetstack.io
+        remoteChart: cert-manager
+        version: v1.13.2
+        valuesFiles: [ values.yaml ]
+      - name: cert-manager-resources
+        chartPath: chart
+        version: 0.0.1

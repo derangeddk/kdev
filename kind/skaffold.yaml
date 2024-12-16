@@ -1,0 +1,10 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: kind-extra-resources
+manifests:
+  rawYaml:
+  - coredns-config.yaml
+  - local-registry-hosting.yaml
+deploy:
+  kubectl: {}

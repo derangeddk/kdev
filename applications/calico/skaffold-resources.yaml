@@ -1,0 +1,9 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: calico-resources
+manifests:
+  rawYaml:
+  - resources.yaml
+deploy:
+  kubectl: {}

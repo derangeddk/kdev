@@ -1,0 +1,12 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: nginx-ingress-controller
+deploy:
+  helm:
+    releases:
+      - name: nginx-ingress-controller
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: nginx-ingress-controller
+        version: 9.9.5
+        valuesFiles: [ values.yaml ]

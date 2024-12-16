@@ -1,0 +1,5 @@
+cluster:
+  name: local-deranged-dk
+
+registry:
+  name: deranged-registry

@@ -1,9 +1,0 @@
-apiVersion: skaffold/v4beta8
-kind: Config
-metadata:
-  name: loki
-deploy:
-  helm:
-    releases:
-      - name: loki
-        chartPath: ../infrastructure/charts/loki

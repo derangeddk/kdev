@@ -1,0 +1,50 @@
+ingress:
+  public:
+    enabled: true
+    className: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: selfsigned-issuer
+    hosts:
+      - host: hydra.local.deranged.dk
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - hosts:
+          - hydra.local.deranged.dk
+        secretName: hydra.local.deranged.dk-tls
+
+hydra:
+  config:
+    secrets:
+      system:
+        - WXdDNG0xVVZrU0pHM2puSmRxYUQycDdi
+
+    dsn: sqlite:///sqlite/ory-hydra.sqlite?_fk=true
+
+    log:
+      leak_sensitive_values: true
+
+    urls:
+      self:
+        issuer: https://hydra.local.deranged.dk
+      login: https://hydra-consent.local.deranged.dk/login
+      consent: https://hydra-consent.local.deranged.dk/consent
+
+  automigration:
+    enabled: true
+    type: initContainer
+
+deployment:
+  extraVolumes:
+    - name: sqlite
+      persistentVolumeClaim:
+        claimName: ory-hydra-sqlite
+
+  extraVolumeMounts:
+    - name: sqlite
+      mountPath: /sqlite
+
+hydra-maester:
+  image:
+    tag: v0.0.28 # newer versions of maester does not allow setting specific client ID - see https://github.com/ory/hydra-maester/issues/117

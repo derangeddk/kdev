@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns
+  namespace: kube-system
+data:
+  Corefile: |
+    .:53 {
+        errors
+        health {
+           lameduck 5s
+        }
+
+        # We add the following rewrite block to acommodate internal routing to
+        # *.localhost.deranged.net as that normally resolves to 127.0.0.1. This
+        # allows us to resolve correcly to a cluster local service from within
+        # the Kind cluster. The rest of this configuration file is original.
+        rewrite stop {
+          name regex (.*).local.deranged.dk. traefik.default.svc.cluster.local
+          answer auto
+        }
+
+        ready
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+           pods insecure
+           fallthrough in-addr.arpa ip6.arpa
+           ttl 30
+        }
+        prometheus :9153
+        forward . /etc/resolv.conf {
+           max_concurrent 1000
+        }
+        cache 30
+        loop
+        reload
+        loadbalance
+    }

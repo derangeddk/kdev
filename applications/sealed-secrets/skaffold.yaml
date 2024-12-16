@@ -1,0 +1,15 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: sealed-secrets
+deploy:
+  helm:
+    releases:
+      - name: sealed-secrets-key
+        chartPath: chart
+        version: 0.0.1
+      - name: sealed-secrets
+        repo: https://bitnami-labs.github.io/sealed-secrets
+        remoteChart: sealed-secrets
+        version: 2.13.0
+        valuesFiles: [ values.yaml ]

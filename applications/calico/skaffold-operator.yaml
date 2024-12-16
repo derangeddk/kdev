@@ -1,0 +1,12 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: calico-operator
+manifests:
+  rawYaml:
+  - operator.yaml
+deploy:
+  kubectl:
+    flags:
+      apply:
+        - --server-side

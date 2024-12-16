@@ -1,0 +1,12 @@
+apiVersion: skaffold/v4beta8
+kind: Config
+metadata:
+  name: infrastructure
+deploy:
+  helm:
+    releases:
+      - name: mailhog
+        repo: https://codecentric.github.io/helm-charts
+        remoteChart: mailhog
+        version: 5.2.3
+        valuesFiles: [ values.yaml ]
