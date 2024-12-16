@@ -29,7 +29,7 @@ for node in $(kind get nodes --name "$KIND_NAME"); do
   # configure to be able to pull from local container registry
   docker exec "${node}" mkdir -p "/etc/containerd/certs.d/localhost:5000"
   cat <<EOF | docker exec -i "${node}" cp /dev/stdin "/etc/containerd/certs.d/localhost:5000/hosts.toml"
-[host."http://"$REGISTRY":5000"]
+[host."http://$REGISTRY:5000"]
 EOF
 done
 
