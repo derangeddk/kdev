@@ -12,5 +12,5 @@ deploy:
       - name: chart
         chartPath: chart
         setValueTemplates:
-          image: localhost:5000/example:{{.IMAGE_TAG_example}}@{{.IMAGE_DIGEST_example}}
+          image: registry.local.deranged.dk/example:{{.IMAGE_TAG_example}}@{{.IMAGE_DIGEST_example}}
           domain: example.local.deranged.dk
