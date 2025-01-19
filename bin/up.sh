@@ -7,10 +7,10 @@ set -o errexit
 
 source constants.sh
 
-# 1. Create registry container unless it already exists
-if [ "$(docker inspect -f '{{.State.Running}}' "$REGISTRY" 2>/dev/null || true)" != 'true' ]; then
-  docker run -d --restart=always --name "$REGISTRY" \
-    --net kind -p 127.0.0.1:5000:5000 \
+1. Create registry container unless it already exists
+if [ "$(docker inspect -f '{{.State.Running}}' "$$KIND_NAME-registry" 2>/dev/null || true)" != 'true' ]; then
+  docker run -d --restart=always --name "$KIND_NAME-registry" \
+    --net kind -e REGISTRY_HTTP_ADDR=0.0.0.0:6000 \
     -v registry:/var/lib/registry \
     registry:2
 fi
@@ -27,9 +27,9 @@ for node in $(kind get nodes --name "$KIND_NAME"); do
   docker update --restart=no "${node}"
 
   # configure to be able to pull from local container registry
-  docker exec "${node}" mkdir -p "/etc/containerd/certs.d/localhost:5000"
-  cat <<EOF | docker exec -i "${node}" cp /dev/stdin "/etc/containerd/certs.d/localhost:5000/hosts.toml"
-[host."http://$REGISTRY:5000"]
+  docker exec "${node}" mkdir -p "/etc/containerd/certs.d/registry.local.deranged.dk"
+  cat <<EOF | docker exec -i "${node}" cp /dev/stdin "/etc/containerd/certs.d/registry.local.deranged.dk/hosts.toml"
+[host."http://$REGISTRY:6000"]
 EOF
 done
 
@@ -51,4 +51,4 @@ cd applications/cert-manager; skaffold run; cd ../..;
 
 echo "Setting global skaffold configuration"
 skaffold config set kind-disable-load true
-skaffold config set default-repo localhost:5000
+skaffold config set default-repo registry.local.deranged.dk
