@@ -49,6 +49,9 @@ cd applications/sealed-secrets; skaffold run; cd ../..;
 # install cert-manager primed with pre-defined key
 cd applications/cert-manager; skaffold run; cd ../..;
 
+# install nginx-ingress-controller
+cd applications/nginx-ingress-controller; skaffold run; cd ../..;
+
 echo "Setting global skaffold configuration"
 skaffold config set kind-disable-load true
 skaffold config set default-repo registry.local.deranged.dk
