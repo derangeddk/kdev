@@ -7,7 +7,7 @@ set -o errexit
 
 source constants.sh
 
-1. Create registry container unless it already exists
+# 1. Create registry container unless it already exists
 if [ "$(docker inspect -f '{{.State.Running}}' "$$KIND_NAME-registry" 2>/dev/null || true)" != 'true' ]; then
   docker run -d --restart=always --name "$KIND_NAME-registry" \
     --net kind -e REGISTRY_HTTP_ADDR=0.0.0.0:6000 \
@@ -51,6 +51,9 @@ cd applications/cert-manager; skaffold run; cd ../..;
 
 # install nginx-ingress-controller
 cd applications/nginx-ingress-controller; skaffold run; cd ../..;
+
+# install mongodb-operator
+cd applications/mongodb-operator; skaffold run; cd ../..;
 
 echo "Setting global skaffold configuration"
 skaffold config set kind-disable-load true
