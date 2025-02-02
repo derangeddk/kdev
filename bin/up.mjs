@@ -31,7 +31,7 @@ if (!nodes.length) {
 
 echo(chalk.green(`Ensuring registry { name: ${config.metadata.name} }`));
 await docker.assert({
-  name: config.metadata.name,
+  name: `${config.metadata.name}-registry`,
   args: ["--restart=no", "--net=kind", `--volume=${config.metadata.name}:/var/lib/registry`, "-e REGISTRY_HTTP_ADDR=0.0.0.0:6000"],
   image: 'registry:2'
 });
