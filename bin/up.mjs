@@ -5,10 +5,10 @@ import kind from '../lib/kind.mjs';
 
 $.quote = x => x;
 
-const nodes = await kind.getNodes({ name: config.cluster.name });
+const nodes = await kind.getNodes({ name: config.metadata.name });
 
 if (!nodes.length) {
-    echo(chalk.green(`Creating cluster { name: ${config.cluster.name} }`));
+    echo(chalk.green(`Creating cluster { name: ${config.metadata.name} }`));
 
     const p = await $`kind create cluster --config=kind/1.29/cluster.yaml;`.pipe.stderr(process.stderr)
 
@@ -17,20 +17,20 @@ if (!nodes.length) {
         process.exit(1);
     }
 
-    for (const node of await kind.getNodes({ name: config.cluster.name })) {
+    for (const node of await kind.getNodes({ name: config.metadata.name })) {
         await $`docker update --restart=no ${node}`;
         await $`docker exec ${node} mkdir -p /etc/containerd/certs.d/registry.local.deranged.dk`;
-        await $`docker exec -i ${node} bash -c 'echo [host.\\"http://${config.registry.name}:6000\\"] > /etc/containerd/certs.d/registry.local.deranged.dk/hosts.toml'`;
+        await $`docker exec -i ${node} bash -c 'echo [host.\\"http://${config.metadata.name}:6000\\"] > /etc/containerd/certs.d/registry.local.deranged.dk/hosts.toml'`;
     }
 
     const skaffoldConfigKindDisableLoad = $`skaffold config set kind-disable-load true`;
     const skaffoldConfigDefaultRepo = $`skaffold config set default-repo registry.local.deranged.dk`;
 }
 
-echo(chalk.green(`Ensuring registry { name: ${config.registry.name} }`));
+echo(chalk.green(`Ensuring registry { name: ${config.metadata.name} }`));
 await docker.assert({
-  name: config.registry.name,
-  args: ["--restart=no", "--net=kind", `--volume=${config.registry.name}:/var/lib/registry`, "-e REGISTRY_HTTP_ADDR=0.0.0.0:6000"],
+  name: config.metadata.name,
+  args: ["--restart=no", "--net=kind", `--volume=${config.metadata.name}:/var/lib/registry`, "-e REGISTRY_HTTP_ADDR=0.0.0.0:6000"],
   image: 'registry:2'
 });
 

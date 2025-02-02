@@ -3,10 +3,10 @@ import config from '../lib/config.mjs';
 import docker from '../lib/docker.mjs';
 import kind from '../lib/kind.mjs';
 
-const nodes = await kind.getNodes({ name: config.cluster.name });
+const nodes = await kind.getNodes({ name: config.metadata.name });
 
 if (!nodes.length) {
-  echo(chalk.red(`Cluster does not exist { name: ${config.cluster.name} }`));
+  echo(chalk.red(`Cluster does not exist { name: ${config.metadata.name} }`));
   process.exit();
 }
 
@@ -15,5 +15,5 @@ for await (const node of nodes) {
   await docker.stop({ name: node });
 }
 
-echo(`Stopping registry ${chalk.red(config.registry.name)}`);
-await docker.stop({ name: config.registry.name });
+echo(`Stopping registry ${chalk.red(config.metadata.name)}`);
+await docker.stop({ name: config.metadata.name });

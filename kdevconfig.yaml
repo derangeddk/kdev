@@ -1,0 +1,4 @@
+apiVersion: kdev.deranged.dk/v1
+kind: Cluster
+metadata:
+  name: local-deranged-dk
