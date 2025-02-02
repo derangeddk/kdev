@@ -12,7 +12,7 @@ data:
         }
 
         # We add the following rewrite block to acommodate internal routing to
-        # *.localhost.deranged.net as that normally resolves to 127.0.0.1. This
+        # *.local.deranged.dk as that normally resolves to 127.0.0.1. This
         # allows us to resolve correcly to a cluster local service from within
         # the Kind cluster. The rest of this configuration file is original.
         rewrite stop {

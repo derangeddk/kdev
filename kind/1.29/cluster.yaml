@@ -25,14 +25,6 @@ nodes:
     listenAddress: 127.0.0.1
     hostPort: 443
     protocol: TCP
-  - containerPort: 30025      # smtp / mailhog
-    listenAddress: 127.0.0.1
-    hostPort: 25
-    protocol: TCP
-  - containerPort: 37017      # mongodb
-    listenAddress: 127.0.0.1
-    hostPort: 27017
-    protocol: TCP
 - role: worker
   image: kindest/node:v1.29.10
 - role: worker
