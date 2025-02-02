@@ -10,7 +10,7 @@ const nodes = await kind.getNodes({ name: config.metadata.name });
 if (!nodes.length) {
     echo(chalk.green(`Creating cluster { name: ${config.metadata.name} }`));
 
-    const p = await $`kind create cluster --config=kind/1.29/cluster.yaml;`.pipe.stderr(process.stderr)
+    const p = await $`kind create cluster --config=kind/${config.spec.kind.version}/cluster.yaml;`;
 
     if (p.exitCode !== 0) {
         echo(chalk.redBright("Could not start kind cluster - exiting"));
