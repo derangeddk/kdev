@@ -23,8 +23,8 @@ if (!nodes.length) {
         await $`docker exec -i ${node} bash -c 'echo [host.\\"http://${config.metadata.name}:6000\\"] > /etc/containerd/certs.d/registry.local.deranged.dk/hosts.toml'`;
     }
 
-    const skaffoldConfigKindDisableLoad = $`skaffold config set kind-disable-load true`;
-    const skaffoldConfigDefaultRepo = $`skaffold config set default-repo registry.local.deranged.dk`;
+    await $`skaffold config set kind-disable-load true`;
+    await $`skaffold config set default-repo registry.local.deranged.dk`;
 }
 
 echo(chalk.green(`Ensuring registry { name: ${config.metadata.name} }`));
