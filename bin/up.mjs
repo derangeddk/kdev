@@ -25,6 +25,8 @@ if (!nodes.length) {
 
     await $`skaffold config set kind-disable-load true`;
     await $`skaffold config set default-repo registry.local.deranged.dk`;
+} else {
+  echo(chalk.green(`Cluster already exists { name: ${config.metadata.name} }`));
 }
 
 echo(chalk.green(`Ensuring registry { name: ${config.metadata.name} }`));
@@ -65,4 +67,4 @@ await Promise.all([
   mongodbOperator,
 ]);
 
-echo("Setup complete");
+echo(chalk.blueBright("Setup complete"));
