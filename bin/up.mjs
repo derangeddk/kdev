@@ -27,6 +27,15 @@ if (!nodes.length) {
     await $`skaffold config set default-repo registry.local.deranged.dk`;
 } else {
   echo(chalk.green(`Cluster already exists { name: ${config.metadata.name} }`));
+
+  // We need to start the nodes if they are not running
+  for await (const node of nodes) {
+    echo(`Starting node ${chalk.green(node)}`);
+    await docker.start({ name: node });
+  }
+
+  // Change context to the cluster that is already running
+  await $`kind export kubeconfig --name ${config.metadata.name}`;
 }
 
 echo(chalk.green(`Ensuring registry { name: ${config.metadata.name} }`));
