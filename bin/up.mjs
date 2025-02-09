@@ -20,7 +20,7 @@ if (!nodes.length) {
     for (const node of await kind.getNodes({ name: config.metadata.name })) {
         await $`docker update --restart=no ${node}`;
         await $`docker exec ${node} mkdir -p /etc/containerd/certs.d/registry.local.deranged.dk`;
-        await $`docker exec -i ${node} bash -c 'echo [host.\\"http://${config.metadata.name}:6000\\"] > /etc/containerd/certs.d/registry.local.deranged.dk/hosts.toml'`;
+        await $`docker exec -i ${node} bash -c 'echo [host.\\"http://${config.metadata.name}-registry:6000\\"] > /etc/containerd/certs.d/registry.local.deranged.dk/hosts.toml'`;
     }
 
     await $`skaffold config set kind-disable-load true`;
