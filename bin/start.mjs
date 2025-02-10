@@ -15,5 +15,16 @@ for await (const node of nodes) {
   await docker.start({ name: node });
 }
 
+// Change context to the cluster that is already running
+echo(chalk.green(`Switching context to cluster { name: ${config.metadata.name} }`));
+try {
+  await kind.setContext({ name: config.metadata.name });
+} catch (e) {
+  echo(chalk.redBright(`Could not switch context to cluster { name: ${config.metadata.name} }`));
+  echo(e);
+  process.exit(1);
+}
+echo(chalk.green(`Context switched to cluster { name: ${config.metadata.name} }`));
+
 echo(`Starting registry ${chalk.green(config.metadata.name)}`);
 await docker.start({ name: config.metadata.name });

@@ -35,7 +35,15 @@ if (!nodes.length) {
   }
 
   // Change context to the cluster that is already running
-  await $`kind export kubeconfig --name ${config.metadata.name}`;
+  echo(chalk.green(`Switching context to cluster { name: ${config.metadata.name} }`));
+  try {
+    await kind.setContext({ name: config.metadata.name });
+  } catch (e) {
+    echo(chalk.redBright(`Could not switch context to cluster { name: ${config.metadata.name} }`));
+    echo(e);
+    process.exit(1);
+  }
+  echo(chalk.green(`Context switched to cluster { name: ${config.metadata.name} }`));
 }
 
 echo(chalk.green(`Ensuring registry { name: ${config.metadata.name} }`));

@@ -14,6 +14,7 @@ export default [
               YAML: false,
               fs: false,
               question: false,
+              sleep: false,
             }
         }
     },
