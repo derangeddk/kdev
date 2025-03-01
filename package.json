@@ -1,5 +1,5 @@
 {
-  "name": "kdev",
+  "name": "@deranged/kdev",
   "version": "0.0.2",
   "description": "This tool is indended to help with reducing the feedback loop when developing applications that should run on Kubernetes. It can be used for both iterating on source code and kubernetes objects using eg. [Skaffold](https://skaffold.dev) or simlar.",
   "directories": {
