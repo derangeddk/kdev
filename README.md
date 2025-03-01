@@ -87,3 +87,4 @@ This project also creates a local container image registry, which can be used fo
 - add script for adding certificate to trust bundles for eg. Firefox and Chrome
 - add poc for sub-commands
 - support configuring localhost domain
+- default to 127-0-0-1.nip.io domain
