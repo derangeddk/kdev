@@ -1,4 +1,5 @@
-#!/usr/bin/env zx
+#!/usr/bin/env node
+import { chalk, echo, question } from "zx";
 import config from '../lib/config.mjs';
 import docker from '../lib/docker.mjs';
 import kind from '../lib/kind.mjs';

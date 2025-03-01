@@ -44,8 +44,8 @@ Calico is installed to allow building and testing fine grained network policies.
 
 
 ## Registry
-This project also a local container image registry, which can be used for pushing locally built container images. The registry runs directly in docker, not inside the Kind cluster.
+This project also creates a local container image registry, which can be used for pushing locally built container images. The registry runs directly in docker, not inside the Kind cluster.
 
 ## TODO
-- add pull through cache
-- rewrite up.sh to zx
+- add pull through cache to kubernetes setup
+- add init tool for generating a config

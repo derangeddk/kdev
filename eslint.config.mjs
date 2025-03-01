@@ -7,14 +7,6 @@ export default [
         languageOptions: {
             globals: {
               ...globals.node,
-              // add zx globals
-              '$': false,
-              echo: false,
-              chalk: false,
-              YAML: false,
-              fs: false,
-              question: false,
-              sleep: false,
             }
         }
     },

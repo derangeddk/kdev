@@ -5,6 +5,9 @@
   "directories": {
     "lib": "lib"
   },
+  "bin": {
+    "kdev": "bin/kdev.mjs"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,6 +17,9 @@
   },
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "zx": "^8.3.2"
+  },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
     "eslint": "^9.19.0",
