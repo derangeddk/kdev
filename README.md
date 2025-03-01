@@ -84,3 +84,6 @@ This project also creates a local container image registry, which can be used fo
 
 - add pull through caches to kubernetes setup
 - add check for config change on `kdev up` by installing config as configmap and diffing it
+- add script for adding certificate to trust bundles for eg. Firefox and Chrome
+- add poc for sub-commands
+- support configuring localhost domain
