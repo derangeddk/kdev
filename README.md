@@ -90,3 +90,4 @@ This project also creates a local container image registry, which can be used fo
 - default to 127-0-0-1.nip.io domain
 - ensure that port 80 and 443 are available before starting a cluster
 - consider distributing kind and skaffold with `kdev` to avoid version issues (also support a kdev skaffold shortcut)
+- add configuration option to use shared `kdev` registry or a specific one per cluster
