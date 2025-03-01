@@ -9,6 +9,7 @@
 - [Docker](https://www.docker.com) for running containers
 - [Kind](https://kind.sigs.k8s.io) for creating cluster nodes
 - [Skaffold](https://skaffold.dev) for installing services
+- [Helm](https://helm.sh) for installing helm charts
 
 ## Commands
 
