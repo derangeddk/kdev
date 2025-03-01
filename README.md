@@ -2,17 +2,32 @@
 
 ## Synopsis
 
-This project is indended to help with reducing the feedback loop when developing applications that should run on Kubernetes. It can be used for both iterating on source code and kubernetes objects using eg. [Skaffold](https://skaffold.dev) or simlar.
+`kdev` is indended to help with reducing the feedback loop when developing applications that should run on Kubernetes. It can be used for both iterating on source code and kubernetes resources using eg. [Skaffold](https://skaffold.dev) or simlar.
 
-The project here is based on [Kind](https://kind.sigs.k8s.io/), which is a prerequisite before starting the cluster.
+`kdev` requires you to have these in your `PATH`:
 
-## Usage
+- [Docker](https://www.docker.com) for running containers
+- [Kind](https://kind.sigs.k8s.io) for creating cluster nodes
+- [Skaffold](https://skaffold.dev) for installing services
 
-To start the development cluster, run `./up.sh`. To stop it, run the corresponding `./down.sh`.
+## Commands
+
+All `kdev` commands will search for a valid config in your current working directory or its parents.
+
+- `kdev up`: this will create your cluster
+- `kdev stop`: this will stop your current cluster
+- `kdev start`: this will start your current cluster
+- `kdev down`: this will delete your current cluster
+
+- `kdev init`: this will generate a default config file in your current directory
+- `kdev raw-config`: this will print your current configuration
+- `kdev version`: this will print your kdev version
+
+To start the development cluster, run `kdev up`. To stop it, run the corresponding `kdev down`.
 
 ## Default services
 
-We install some default services that ensures the cluster is useful:
+`kdev` installs some default services that ensures the cluster is useful:
 
 - calico as a network CNI
 - nginx-ingress-controller for HTTP/HTTPS traffic
@@ -20,7 +35,7 @@ We install some default services that ensures the cluster is useful:
 
 ## Support services
 
-The cluster comes with the following support services that can be installed:
+`kdev` comes with the following support services that can be installed:
 
 - mailhog
 - minio
