@@ -88,3 +88,4 @@ This project also creates a local container image registry, which can be used fo
 - add poc for sub-commands
 - support configuring localhost domain
 - default to 127-0-0-1.nip.io domain
+- ensure that port 80 and 443 are available before starting a cluster
