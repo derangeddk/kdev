@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { chalk, echo, $ } from 'zx';
+import { chalk, echo, $, fs, YAML } from 'zx';
 import config from '../lib/config.mjs';
 import docker from '../lib/docker.mjs';
 import kind from '../lib/kind.mjs';
@@ -9,6 +9,24 @@ const installService = async ({ name, dir }) => {
   if (name) echo(chalk.yellow(`Installing service { name: ${name} }`));
   await $({ cwd: dir, quiet: true })`skaffold run`;
   if (name) echo(chalk.green(`Service installed { name: ${name} }`));
+};
+
+const installChart = async ({ name, remoteChart, version, values}) => {
+  echo(chalk.yellow(`Installing chart { name: ${name}, remoteChart: ${remoteChart}, version: ${version} }`));
+
+  const temporaryFileName = `.values-${name}-${version}.yaml`;
+  fs.writeFileSync(temporaryFileName, YAML.stringify(values));
+
+  try {
+    await $({ quiet: true })`helm upgrade --install --values "${temporaryFileName}" ${name} ${remoteChart} --version ${version}`;
+  } catch (error) {
+    echo(chalk.redBright(`Could not install chart { name: ${name}`));
+    return echo(error);
+  } finally {
+    fs.rmSync(temporaryFileName);
+  }
+
+  echo(chalk.green(`Chart installed { name: ${name} }`));
 };
 
 const nodes = await kind.getNodes({ name: config.metadata.name });
@@ -85,5 +103,11 @@ if (config.spec.services) {
 }
 
 await Promise.all(services);
+
+// Install charts
+if (config.spec.charts) {
+  const charts = config.spec.charts.map(chart => installChart(chart));
+  await Promise.all(charts);
+}
 
 echo(chalk.blueBright("Setup complete"));
