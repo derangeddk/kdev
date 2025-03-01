@@ -67,16 +67,12 @@ const calico = (async () => {
 const nginxIngressController = $({ cwd: 'services/nginx-ingress-controller' })`skaffold run`;
 const certManager = $({ cwd: 'services/cert-manager' })`skaffold run`;
 
-// Install mongodb-operator
-const mongodbOperator = $({ cwd: 'services/mongodb-operator' })`skaffold run`;
-
 
 await Promise.all([
   kindExtraResources,
   calico,
   certManager,
   nginxIngressController,
-  mongodbOperator,
 ]);
 
 echo(chalk.blueBright("Setup complete"));
