@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "description": "This tool is indended to help with reducing the feedback loop when developing applications that should run on Kubernetes. It can be used for both iterating on source code and kubernetes objects using eg. [Skaffold](https://skaffold.dev) or simlar.",
   "directories": {
-    "lib": "lib"
+    "bin": "bin",
+    "lib": "lib",
+    "kind": "kind",
+    "service": "services"
   },
   "bin": {
     "kdev": "bin/kdev.mjs"
@@ -13,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.deranged.dk:deranged/kind-deranged.git"
+    "url": "git@github.com:derangeddk/kdev.git"
   },
   "author": "deranged <get@deranged.dk>",
   "license": "ISC",
