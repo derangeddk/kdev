@@ -1,4 +1,4 @@
-# Local Development Cluster with Kind
+# kdev - local development cluster with kind
 
 ## Synopsis
 
