@@ -63,14 +63,9 @@ const calico = (async () => {
   await $({ cwd: 'applications/calico' })`skaffold run --filename skaffold-resources.yaml`;
 })();
 
-// Install sealed secrets primed with pre-defined key
-const sealedSecrets =  $({ cwd: 'applications/sealed-secrets' })`skaffold run`;
-
-// Install cert-manager primed with pre-defined key
-const certManager = $({ cwd: 'applications/cert-manager' })`skaffold run`;
-
-// Install nginx-ingress-controller
+// Install default applications
 const nginxIngressController = $({ cwd: 'applications/nginx-ingress-controller' })`skaffold run`;
+const certManager = $({ cwd: 'applications/cert-manager' })`skaffold run`;
 
 // Install mongodb-operator
 const mongodbOperator = $({ cwd: 'applications/mongodb-operator' })`skaffold run`;
