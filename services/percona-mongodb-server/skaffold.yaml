@@ -1,12 +1,12 @@
 apiVersion: skaffold/v4beta11
 kind: Config
 metadata:
-  name: mongodb-operator
+  name: percona-mongodb-server
 deploy:
   helm:
     releases:
-      - name: mongodb-operator
+      - name: mongodb-server
         repo: https://percona.github.io/percona-helm-charts
-        remoteChart: psmdb-operator
+        remoteChart: psmdb-db
         version: 1.18.0
         valuesFiles: [ values.yaml ]

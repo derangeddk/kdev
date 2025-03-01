@@ -59,16 +59,16 @@ const kindExtraResources = $({ cwd: 'kind' })`skaffold run`;
 
 // Install calico, first the operator and then the resources
 const calico = (async () => {
-  await $({ cwd: 'applications/calico' })`skaffold run --filename skaffold-operator.yaml`;
-  await $({ cwd: 'applications/calico' })`skaffold run --filename skaffold-resources.yaml`;
+  await $({ cwd: 'services/calico' })`skaffold run --filename skaffold-operator.yaml`;
+  await $({ cwd: 'services/calico' })`skaffold run --filename skaffold-resources.yaml`;
 })();
 
-// Install default applications
-const nginxIngressController = $({ cwd: 'applications/nginx-ingress-controller' })`skaffold run`;
-const certManager = $({ cwd: 'applications/cert-manager' })`skaffold run`;
+// Install default services
+const nginxIngressController = $({ cwd: 'services/nginx-ingress-controller' })`skaffold run`;
+const certManager = $({ cwd: 'services/cert-manager' })`skaffold run`;
 
 // Install mongodb-operator
-const mongodbOperator = $({ cwd: 'applications/mongodb-operator' })`skaffold run`;
+const mongodbOperator = $({ cwd: 'services/mongodb-operator' })`skaffold run`;
 
 
 await Promise.all([

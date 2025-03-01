@@ -10,17 +10,17 @@ The project here is based on [Kind](https://kind.sigs.k8s.io/), which is a prere
 
 To start the development cluster, run `./up.sh`. To stop it, run the corresponding `./down.sh`.
 
-## Default applications
+## Default services
 
-We install some default applications that ensures the cluster is useful:
+We install some default services that ensures the cluster is useful:
 
 - calico as a network CNI
 - nginx-ingress-controller for HTTP/HTTPS traffic
 - cert-manager for local HTTPS (see later section on importing the certificate)
 
-## Support applications
+## Support services
 
-The cluster comes with the following support applications that can be installed:
+The cluster comes with the following support services that can be installed:
 
 - mailhog
 - minio
@@ -31,7 +31,7 @@ The cluster comes with the following support applications that can be installed:
 - traefik (requires uninstalling the default nginx)
 - zalando-postgres-operator
 
-Feel free to contribute more applications
+Feel free to contribute more services.
 
 ### Sealed Secrets
 
@@ -39,7 +39,7 @@ SealedSecrets is installed with a predefinded set of keys, so you can share your
 
 To use `kubeseal` to seal local secrets, the following option can be used:
 
-```
+```bash
 kubeseal --cert https://sealed-secrets.local.deranged.dk/v1/cert.pem -o yaml --from-file=[secret.yaml]
 ```
 
