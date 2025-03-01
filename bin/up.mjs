@@ -74,7 +74,6 @@ const mongodbOperator = $({ cwd: 'applications/mongodb-operator' })`skaffold run
 await Promise.all([
   kindExtraResources,
   calico,
-  sealedSecrets,
   certManager,
   nginxIngressController,
   mongodbOperator,
