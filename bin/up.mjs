@@ -5,6 +5,11 @@ import docker from '../lib/docker.mjs';
 import kind from '../lib/kind.mjs';
 
 $.quote = x => x;
+const installService = async ({ name, dir }) => {
+  if (name) echo(chalk.yellow(`Installing service { name: ${name} }`));
+  await $({ cwd: dir, quiet: true })`skaffold run`;
+  if (name) echo(chalk.green(`Service installed { name: ${name} }`));
+};
 
 const nodes = await kind.getNodes({ name: config.metadata.name });
 
@@ -47,32 +52,38 @@ if (!nodes.length) {
   echo(chalk.green(`Context switched to cluster { name: ${config.metadata.name} }`));
 }
 
-echo(chalk.green(`Ensuring registry { name: ${config.metadata.name} }`));
+echo(chalk.green(`Asserting registry { name: ${config.metadata.name} }`));
 await docker.assert({
   name: `${config.metadata.name}-registry`,
   args: ["--restart=no", "--net=kind", `--volume=${config.metadata.name}:/var/lib/registry`, "-e REGISTRY_HTTP_ADDR=0.0.0.0:6000"],
   image: 'registry:2'
 });
 
+echo(chalk.green(`Installing services`));
+const services = [];
+
 // Add extra kind-related resources
-const kindExtraResources = $({ cwd: 'kind' })`skaffold run`;
+services.push(installService({ dir: `${import.meta.dirname}/../kind` }));
 
 // Install calico, first the operator and then the resources
-const calico = (async () => {
-  await $({ cwd: 'services/calico' })`skaffold run --filename skaffold-operator.yaml`;
-  await $({ cwd: 'services/calico' })`skaffold run --filename skaffold-resources.yaml`;
-})();
+const calico = async () => {
+  await installService({ dir: `${import.meta.dirname}/../services/calico-operator` });
+  await installService({ dir: `${import.meta.dirname}/../services/calico-resources` });
+};
+
+services.push(calico());
 
 // Install default services
-const nginxIngressController = $({ cwd: 'services/nginx-ingress-controller' })`skaffold run`;
-const certManager = $({ cwd: 'services/cert-manager' })`skaffold run`;
+services.push(installService({ name: 'nginx-ingress-controller', dir: `${import.meta.dirname}/../services/nginx-ingress-controller` }));
+services.push(installService({ name: 'cert-manager', dir: `${import.meta.dirname}/../services/cert-manager` }));
 
+// Install custom services
+if (config.spec.services) {
+  services.push(...config.spec.services.map(async service => {
+    await installService({ name: service, dir: `${import.meta.dirname}/../services/${service}` });
+  }));
+}
 
-await Promise.all([
-  kindExtraResources,
-  calico,
-  certManager,
-  nginxIngressController,
-]);
+await Promise.all(services);
 
 echo(chalk.blueBright("Setup complete"));
