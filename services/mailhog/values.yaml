@@ -70,12 +70,14 @@ ingress:
   hosts:
     - host: mailhog.local.deranged.dk
       paths:
-        - path: /
+        - path: "/"
           pathType: Prefix
+
+
   tls:
     - secretName: mailhog.local.deranged.dk-tls
       hosts:
-      - mailhog.local.deranged.dk
+        - mailhog.local.deranged.dk
 
 auth:
   enabled: false

@@ -8,5 +8,5 @@ deploy:
       - name: mailhog
         repo: https://codecentric.github.io/helm-charts
         remoteChart: mailhog
-        version: 5.2.3
+        version: 5.8.0
         valuesFiles: [ values.yaml ]
