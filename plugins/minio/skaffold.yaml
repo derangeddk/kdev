@@ -1,0 +1,11 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: minio
+deploy:
+  helm:
+    releases:
+      - name: minio
+        remoteChart: oci://registry-1.docker.io/bitnamicharts/minio
+        version: 15.0.7
+        valuesFiles: [ values-15.0.7.yaml, values-local.yaml ]

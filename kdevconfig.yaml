@@ -5,3 +5,7 @@ metadata:
 spec:
   kind:
     version: "1.30"
+  plugins:
+    - name: minio
+      type: file
+      path: plugins/minio/index.sh

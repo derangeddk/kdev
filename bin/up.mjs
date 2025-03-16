@@ -11,6 +11,22 @@ const installService = async ({ name, dir }) => {
   if (name) echo(chalk.green(`Service installed { name: ${name} }`));
 };
 
+const installPlugin = async (plugin) => {
+  const { name, type } = plugin;
+  if (name) echo(chalk.yellow(`Installing plugin { name: ${name} }`));
+
+  if (type === 'file') {
+    const { path } = plugin;
+    await $()`./${path} install`;
+
+    if (name) echo(chalk.green(`Plugin installed { name: ${name} }`));
+    return;
+  }
+
+  echo(chalk.redBright(`type not implemented yet { type: ${type} }`));
+  return;
+};
+
 const installChart = async ({ name, remoteChart, version, values}) => {
   echo(chalk.yellow(`Installing chart { name: ${name}, remoteChart: ${remoteChart}, version: ${version} }`));
 
@@ -70,7 +86,7 @@ if (!nodes.length) {
   echo(chalk.green(`Context switched to cluster { name: ${config.metadata.name} }`));
 }
 
-echo(chalk.green(`Asserting registry { name: ${config.metadata.name} }`));
+echo(chalk.green(`Asserting registry { name: ${config.metadata.name}-registry }`));
 await docker.assert({
   name: `${config.metadata.name}-registry`,
   args: ["--restart=no", "--net=kind", `--volume=${config.metadata.name}:/var/lib/registry`, "-e REGISTRY_HTTP_ADDR=0.0.0.0:6000"],
@@ -103,6 +119,13 @@ if (config.spec.services) {
 }
 
 await Promise.all(services);
+
+
+// Install custom plugins
+if (config.spec.plugins) {
+  const plugins = config.spec.plugins.map(installPlugin);
+  await Promise.all(plugins);
+}
 
 // Install charts
 if (config.spec.charts) {
