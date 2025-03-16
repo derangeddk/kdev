@@ -30,5 +30,5 @@ echo(`Deleting cluster ${chalk.red(config.metadata.name)}`);
 await kind.deleteCluster({ name: config.metadata.name });
 
 echo(`Deleting registry ${chalk.red(config.metadata.name)}`);
-await docker.kill({ name: config.metadata.name });
-await docker.remove({ name: config.metadata.name });
+await docker.kill({ name: `${config.metadata.name}-registry` });
+await docker.remove({ name: `${config.metadata.name}-registry` });

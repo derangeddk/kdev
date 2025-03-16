@@ -16,5 +16,5 @@ for await (const node of nodes) {
   await docker.stop({ name: node });
 }
 
-echo(`Stopping registry ${chalk.red(config.metadata.name)}`);
-await docker.stop({ name: config.metadata.name });
+echo(`Stopping registry ${chalk.red(`${config.metadata.name}-registry`)}`);
+await docker.stop({ name: `${config.metadata.name}-registry` });
