@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { chalk, echo } from 'zx';
-
+import assertTools from '../lib/tools.mjs';
 
 process.on('warning', (warning) => {
     echo(chalk.orange('A warning was emitted'));
@@ -15,6 +15,7 @@ if (!command) {
     process.exit(1);
 }
 
+await assertTools();
 
 try {
     await import(`./${command}.mjs`);
