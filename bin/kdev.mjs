@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import { chalk, echo } from 'zx';
 
-process.env.FORCE_COLOR='1'
 
 process.on('warning', (warning) => {
     echo(chalk.orange('A warning was emitted'));
