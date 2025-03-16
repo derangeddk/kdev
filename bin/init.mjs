@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import { echo, question, fs, YAML } from 'zx';
-
-echo("Welcome to the kdev config initializer");
+import { isYes } from '../lib/utils.mjs';
 
 const answer = await question("Do you want to create a default config file here? [y/N]: ");
 
@@ -18,7 +17,7 @@ const defaultConfig = {
     },
 };
 
-if (answer === "y") {
+if (isYes(answer, { defaultValue: false })) {
     fs.writeFileSync("kdevconfig.yaml", YAML.stringify(defaultConfig));
 } else {
     echo("No config file created");

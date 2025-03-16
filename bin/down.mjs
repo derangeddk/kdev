@@ -3,6 +3,7 @@ import { chalk, echo, question } from "zx";
 import config from '../lib/config.mjs';
 import docker from '../lib/docker.mjs';
 import kind from '../lib/kind.mjs';
+import { isYes } from "../lib/utils.mjs";
 
 const nodes = await kind.getNodes({ name: config.metadata.name });
 
@@ -20,7 +21,7 @@ if (!nodes.length) {
 
 const answer = await question(`Are you sure you want to delete the cluster ${chalk.red(config.metadata.name)}? (N/y) `)
 
-if (answer !== "y") {
+if (!isYes(answer, { defaultValue: false })) {
     echo(`Not continuing`);
     process.exit(0);
 }
