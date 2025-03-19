@@ -129,7 +129,7 @@ if (config.spec.plugins) {
 
 // Install charts
 if (config.spec.charts) {
-  const charts = config.spec.charts.map(chart => installChart(chart));
+  const charts = config.spec.charts.map(installChart);
   await Promise.all(charts);
 }
 
