@@ -86,9 +86,12 @@ This project also creates a local container image registry, which can be used fo
 - add pull through caches to kubernetes setup
 - add check for config change on `kdev up` by installing config as configmap and diffing it
 - add script for adding certificate to trust bundles for eg. Firefox and Chrome
+  - should be handled as a plugin with a config-command
 - add poc for sub-commands
 - support configuring localhost domain
-- default to 127-0-0-1.nip.io domain
+  - default to 127-0-0-1.nip.io domain
+  - detect if your DNS blocks 127.0.0.1 values
 - ensure that port 80 and 443 are available before starting a cluster
 - consider distributing kind and skaffold with `kdev` to avoid version issues (also support a kdev skaffold shortcut)
 - add configuration option to use shared `kdev` registry or a specific one per cluster
+- poc for handling ~/.kdev config directory
