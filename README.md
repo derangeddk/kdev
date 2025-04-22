@@ -95,3 +95,4 @@ This project also creates a local container image registry, which can be used fo
 - consider distributing kind and skaffold with `kdev` to avoid version issues (also support a kdev skaffold shortcut)
 - add configuration option to use shared `kdev` registry or a specific one per cluster
 - poc for handling ~/.kdev config directory
+- temporary files should include kdev in its name for recognition, and reduce their lifetime
