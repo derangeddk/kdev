@@ -34,7 +34,6 @@ const installChart = async ({ name, remoteChart, remoteRepo = "", version, value
   fs.writeFileSync(temporaryFileName, YAML.stringify(values));
 
   try {
-    echo(`helm upgrade --install --values "${temporaryFileName}" ${name} ${remoteChart || name} ${remoteRepo && `--repo ${remoteRepo}`} --version ${version}`)
     await $({ quiet: true })`helm upgrade --install --values "${temporaryFileName}" ${name} ${remoteChart || name} ${remoteRepo && `--repo ${remoteRepo}`} --version ${version}`;
   } catch (error) {
     echo(chalk.redBright(`Could not install chart { name: ${name} }`));
