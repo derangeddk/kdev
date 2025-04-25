@@ -27,14 +27,14 @@ const installPlugin = async (plugin) => {
   return;
 };
 
-const installChart = async ({ name, remoteChart, remoteRepo = "", version, values = {}}) => {
-  echo(chalk.yellow(`Installing chart { name: ${name}, remoteChart: ${remoteChart}, ${remoteRepo && `remoteRepo: ${remoteRepo}, `} version: ${version} }`));
+const installChart = async ({ name, remoteChart, remoteRepo, version, values = {}}) => {
+  echo(chalk.yellow(`Installing chart { name: ${name}, remoteChart: ${remoteChart || name}, ${remoteRepo ? `remoteRepo: ${remoteRepo}, ` : ''} version: ${version} }`));
 
   const temporaryFileName = `.values-${name}-${version}.yaml`;
   fs.writeFileSync(temporaryFileName, YAML.stringify(values));
 
   try {
-    await $({ quiet: true })`helm upgrade --install --values "${temporaryFileName}" ${name} ${remoteChart || name} ${remoteRepo && `--repo ${remoteRepo}`} --version ${version}`;
+    await $({ quiet: true })`helm upgrade --install --values "${temporaryFileName}" ${name} ${remoteChart || name} ${remoteRepo ? `--repo ${remoteRepo}` : ''} --version ${version}`;
   } catch (error) {
     echo(chalk.redBright(`Could not install chart { name: ${name} }`));
     return echo(error);
