@@ -96,4 +96,3 @@ This project also creates a local container image registry, which can be used fo
 - add configuration option to use shared `kdev` registry or a specific one per cluster
 - poc for handling ~/.kdev config directory
 - temporary files should include kdev in its name for recognition, and reduce their lifetime
-- detect too-many-open-files issue: https://kind.sigs.k8s.io/docs/user/known-issues/#pod-errors-due-to-too-many-open-files

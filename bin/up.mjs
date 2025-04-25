@@ -36,7 +36,7 @@ const installChart = async ({ name, remoteChart, remoteRepo = "", version, value
   try {
     await $({ quiet: true })`helm upgrade --install --values "${temporaryFileName}" ${name} ${remoteChart || name} ${remoteRepo && `--repo ${remoteRepo}`} --version ${version}`;
   } catch (error) {
-    echo(chalk.redBright(`Could not install chart { name: ${name} }`));
+    echo(chalk.redBright(`Could not install chart { name: ${name}`));
     return echo(error);
   } finally {
     fs.rmSync(temporaryFileName);
@@ -109,6 +109,7 @@ services.push(calico());
 
 // Install default services
 services.push(installService({ name: 'nginx-ingress-controller', dir: `${import.meta.dirname}/../services/nginx-ingress-controller` }));
+services.push(installService({ name: 'cert-manager', dir: `${import.meta.dirname}/../services/cert-manager` }));
 
 // Install custom services
 if (config.spec.services) {
