@@ -76,7 +76,7 @@ if (!nodes.length) {
   }
 
   // Change context to the cluster that is already running
-  echo(chalk.green(`Switching context to cluster { name: ${config.metadata.name} }`));
+  echo(chalk.yellow(`Switching context to cluster { name: ${config.metadata.name} }`));
   try {
     await kind.setContext({ name: config.metadata.name });
   } catch (e) {
