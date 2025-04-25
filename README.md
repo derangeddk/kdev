@@ -56,7 +56,7 @@ SealedSecrets is installed with a predefinded set of keys, so you can share your
 To use `kubeseal` to seal local secrets, the following option can be used:
 
 ```bash
-kubeseal --cert https://sealed-secrets.local.deranged.dk/v1/cert.pem -o yaml --from-file=[secret.yaml]
+kubeseal --cert https://sealed-secrets.local.deranged.dk/v1/cert.pem -o yaml --secret-file=[secret.yaml]
 ```
 
 ### Cert Manager
