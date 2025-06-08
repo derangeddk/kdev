@@ -28,8 +28,15 @@ if [ "$COMMAND" == "config" ]; then
     CACRT=$(base64 -w0 < tls.crt);
     CAKEY=$(base64 -w0 < tls.key);
 
-    echo "tls.crt: $CACRT"
-    echo "tls.key: $CAKEY"
+    echo "add these to plugin config:";
+    echo "tls.crt: $CACRT";
+    echo "tls.key: $CAKEY";
+
+    echo "add this to your browsers trusted certificates:";
+    cat tls.crt;
+
+    rm tls.crt;
+    rm tls.key;
 
     # TODO get these should be added as config in kdev config file
     # the tls.crt can be added as a cert in firefox
