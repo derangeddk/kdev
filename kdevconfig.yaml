@@ -5,6 +5,10 @@ metadata:
 spec:
   kind:
     version: "1.32"
+  config:
+    domain: local.deranged.dk
+    registry: registry.local.deranged.dk
+    ingressService: nginx-ingress-controller.default.svc.cluster.local
   plugins:
     - url: builtin://cert-manager
       config:

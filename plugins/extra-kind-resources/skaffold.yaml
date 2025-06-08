@@ -1,0 +1,17 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: ekstra-kind-resources
+deploy:
+  helm:
+    releases:
+      - name: coredns-config
+        chartPath: coredns-config
+        version: 0.0.0
+        namespace: kube-system
+        valuesFiles: [ .values.yaml ]
+      - name: local-registry-hosting
+        chartPath: local-registry-hosting
+        version: 0.0.0
+        namespace: kube-public
+        valuesFiles: [ .values.yaml ]

@@ -1,0 +1,2 @@
+domain: local.deranged.dk
+ingressService: nginx-ingress-controller.default.svc.cluster.local

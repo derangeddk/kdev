@@ -31,15 +31,15 @@ const installPlugin = async (plugin) => {
     plugin.path = `plugins/${plugin.path}/index.sh`;
   }
 
-  const { name, scheme, config: pluginConfig={} } = plugin;
-  if (name) echo(chalk.yellow(`Installing plugin { name: ${name} }`));
+  const { name, scheme, config: pluginConfig={}, silent=false } = plugin;
+  if (name && !silent) echo(chalk.yellow(`Installing plugin { name: ${name} }`));
 
   if (scheme === 'file') {
     const { path } = plugin;
-    await $`${packageRoot}/${path} install --config='${JSON.stringify(pluginConfig)}' --clusterName='${config.metadata.name}'`;
-    // await $`./${path} install --config='${JSON.stringify(config)}'`.pipe(process.stdout);
+    // await $`${packageRoot}/${path} install --config='${JSON.stringify(pluginConfig)}' --clusterName='${config.metadata.name}'`;
+    await $`${packageRoot}/${path} install --config='${JSON.stringify(pluginConfig)}' --clusterName='${config.metadata.name}'`.pipe(process.stdout);
 
-    if (name) echo(chalk.green(`Plugin installed { name: ${name} }`));
+    if (name && !silent) echo(chalk.green(`Plugin installed { name: ${name} }`));
     return;
   }
 
@@ -79,12 +79,12 @@ if (!nodes.length) {
 
     for (const node of await kind.getNodes({ name: config.metadata.name })) {
         await $`docker update --restart=no ${node}`;
-        await $`docker exec ${node} mkdir -p /etc/containerd/certs.d/registry.local.deranged.dk`;
-        await $`docker exec -i ${node} bash -c 'echo [host.\\"http://${config.metadata.name}-registry:6000\\"] > /etc/containerd/certs.d/registry.local.deranged.dk/hosts.toml'`;
+        await $`docker exec ${node} mkdir -p /etc/containerd/certs.d/${config.spec.config.registry}`;
+        await $`docker exec -i ${node} bash -c 'echo [host.\\"http://${config.metadata.name}-registry:6000\\"] > /etc/containerd/certs.d/${config.spec.config.registry}/hosts.toml'`;
     }
 
     await $`skaffold config set kind-disable-load true`;
-    await $`skaffold config set default-repo registry.local.deranged.dk`;
+    await $`skaffold config set default-repo ${config.spec.config.registry}`;
 } else {
   echo(chalk.green(`Cluster already exists { name: ${config.metadata.name} }`));
 
@@ -122,7 +122,7 @@ echo(chalk.green(`Installing services`));
 const services = [];
 
 // Add extra kind-related resources
-services.push(installService({ dir: `${import.meta.dirname}/../kind` }));
+await installPlugin({ url: 'builtin://extra-kind-resources', config: config.spec.config, silent: true });
 
 // for 1.30 we install calico
 if (config.spec.kind.version === '1.30') {
