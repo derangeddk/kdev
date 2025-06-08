@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-example-site
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-example-site
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-example-site
+    spec:
+      containers:
+      - name: example-site
+        image: {{ .Values.image }}
