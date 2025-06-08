@@ -1,0 +1,13 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: cilium
+deploy:
+  helm:
+    releases:
+      - name: cilium
+        repo: https://helm.cilium.io
+        remoteChart: cilium
+        namespace: kube-system
+        version: 1.17.4
+        valuesFiles: [ values-1.17.4.yaml, values-local.yaml ]

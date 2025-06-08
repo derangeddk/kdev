@@ -12,10 +12,27 @@ const installService = async ({ name, dir }) => {
 };
 
 const installPlugin = async (plugin) => {
-  const { name, type } = plugin;
+  // if plugin is a string, convert it to an object
+  if (typeof plugin === 'string') plugin = { url: plugin }
+
+  if (plugin.url) {
+    const [scheme, path] = plugin.url.split('://');
+    plugin.scheme = scheme;
+    plugin.path = path;
+    if (!plugin.name) plugin.name = path.split('/').pop();
+  }
+
+  // if the plugin is a builtin plugin, we need to set the path to the correct location
+  // this way, we handle built in plugins as if they were file-scheme plugins
+  if (plugin.scheme === 'builtin') {
+    plugin.scheme = 'file';
+    plugin.path = `plugins/${plugin.path}/index.sh`;
+  }
+
+  const { name, scheme } = plugin;
   if (name) echo(chalk.yellow(`Installing plugin { name: ${name} }`));
 
-  if (type === 'file') {
+  if (scheme === 'file') {
     const { path } = plugin;
     await $()`./${path} install`;
 
@@ -23,7 +40,7 @@ const installPlugin = async (plugin) => {
     return;
   }
 
-  echo(chalk.redBright(`type not implemented yet { type: ${type} }`));
+  echo(chalk.redBright(`type not implemented { type: ${scheme} }`));
   return;
 };
 
@@ -99,16 +116,21 @@ const services = [];
 // Add extra kind-related resources
 services.push(installService({ dir: `${import.meta.dirname}/../kind` }));
 
-// Install calico, first the operator and then the resources
-const calico = async () => {
-  await installService({ dir: `${import.meta.dirname}/../services/calico-operator` });
-  await installService({ dir: `${import.meta.dirname}/../services/calico-resources` });
-};
+// for 1.30 we install calico
+if (config.spec.kind.version === '1.30') {
+  echo(chalk.yellow(`Using calico for networking`));
 
-services.push(calico());
+  // Install calico, first the operator and then the resources
+  services.push(async () => {
+    await installService({ dir: `${import.meta.dirname}/../services/calico-operator` });
+    await installService({ dir: `${import.meta.dirname}/../services/calico-resources` });
+  });
+}
 
-// Install default services
-services.push(installService({ name: 'nginx-ingress-controller', dir: `${import.meta.dirname}/../services/nginx-ingress-controller` }));
+// for 1.30 we install nginx ingress controller, but in the future, users install their own or via a plugin
+if (config.spec.kind.version === '1.30') {
+  services.push(installService({ name: 'nginx-ingress-controller', dir: `${import.meta.dirname}/../services/nginx-ingress-controller` }));
+}
 
 // Install custom services
 if (config.spec.services) {

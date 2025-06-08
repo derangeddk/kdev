@@ -20,6 +20,7 @@ git+https://github.com/visionmedia/express.git/
 oci://docker.io/deranged/kdev-plugin-minio
 npm://kdev-plugin-minio@1.0.0
 file://plugins/minio/index.sh
+builtin://cilium
 
 ## TODO
 

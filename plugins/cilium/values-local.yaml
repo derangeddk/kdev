@@ -1,0 +1,4 @@
+# We set this according to the "Cilium on Kind" documentation:
+# https://docs.cilium.io/en/latest/installation/kind/#install-cilium
+ipam:
+  mode: kubernetes
