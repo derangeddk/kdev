@@ -1,0 +1,39 @@
+# Resources for bootstrapping cert manager selfsigned issuer
+
+```plain
+# This is used to bootstrap a cluster issuer within the kind cluster after
+# certificate has been created, the secret
+# "kind-local-deranged-dk-selfsigned-ca" can be exported and stored for
+# future application in a new kind cluster
+#
+# the ca can be used with the following cluster issuer:
+
+# apiVersion: cert-manager.io/v1
+# kind: ClusterIssuer
+# metadata:
+#   name: selfsigned-issuer
+# spec:
+#   ca:
+#     secretName: kind-local-deranged-dk-selfsigned-ca
+
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: selfsigned-issuer
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: local-deranged-dk-selfsigned-ca
+spec:
+  isCA: true
+  commonName: local-deranged-dk-selfsigned-ca
+  secretName: local-deranged-dk-selfsigned-ca
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+  duration: 876600h # 100 years
+```
