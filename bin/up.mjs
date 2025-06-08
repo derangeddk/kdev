@@ -36,8 +36,8 @@ const installPlugin = async (plugin) => {
 
   if (scheme === 'file') {
     const { path } = plugin;
-    // await $`${packageRoot}/${path} install --config='${JSON.stringify(pluginConfig)}' --clusterName='${config.metadata.name}'`;
-    await $`${packageRoot}/${path} install --config='${JSON.stringify(pluginConfig)}' --clusterName='${config.metadata.name}'`.pipe(process.stdout);
+    await $`${packageRoot}/${path} install --config='${JSON.stringify(pluginConfig)}' --clusterName='${config.metadata.name}'`;
+    // await $`${packageRoot}/${path} install --config='${JSON.stringify(pluginConfig)}' --clusterName='${config.metadata.name}'`.pipe(process.stdout);
 
     if (name && !silent) echo(chalk.green(`Plugin installed { name: ${name} }`));
     return;
