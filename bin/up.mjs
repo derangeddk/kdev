@@ -4,6 +4,8 @@ import config from '../lib/config.mjs';
 import docker from '../lib/docker.mjs';
 import kind from '../lib/kind.mjs';
 
+const packageRoot = `${import.meta.dirname}/..`;
+
 $.quote = x => x;
 const installService = async ({ name, dir }) => {
   if (name) echo(chalk.yellow(`Installing service { name: ${name} }`));
@@ -29,12 +31,12 @@ const installPlugin = async (plugin) => {
     plugin.path = `plugins/${plugin.path}/index.sh`;
   }
 
-  const { name, scheme, config={} } = plugin;
+  const { name, scheme, config: pluginConfig={} } = plugin;
   if (name) echo(chalk.yellow(`Installing plugin { name: ${name} }`));
 
   if (scheme === 'file') {
     const { path } = plugin;
-    await $`./${path} install --config='${JSON.stringify(config)}'`;
+    await $`${packageRoot}/${path} install --config='${JSON.stringify(pluginConfig)}' --clusterName='${config.metadata.name}'`;
     // await $`./${path} install --config='${JSON.stringify(config)}'`.pipe(process.stdout);
 
     if (name) echo(chalk.green(`Plugin installed { name: ${name} }`));
@@ -113,7 +115,7 @@ await docker.assert({
 
 if (config.spec.kind.version !== '1.30') {
   echo(chalk.green(`Installing CNI plugin`));
-  installPlugin(config.spec.kind.cniPlugin || 'builtin://cilium');
+  await installPlugin(config.spec.kind.cniPlugin || 'builtin://cilium');
 }
 
 echo(chalk.green(`Installing services`));
