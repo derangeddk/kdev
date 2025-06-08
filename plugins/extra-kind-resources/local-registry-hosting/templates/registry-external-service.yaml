@@ -4,4 +4,4 @@ metadata:
   name: local-registry
 spec:
   type: ExternalName
-  externalName: local-deranged-dk-registry
+  externalName: {{ .Values.clusterName }}-registry

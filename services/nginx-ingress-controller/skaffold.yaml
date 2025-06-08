@@ -10,5 +10,3 @@ deploy:
         remoteChart: nginx-ingress-controller
         version: 9.9.5
         valuesFiles: [ values.yaml ]
-      - name: nginx-ingress-controller-extra-resources
-        chartPath: chart
