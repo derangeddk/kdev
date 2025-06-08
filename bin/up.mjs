@@ -29,12 +29,13 @@ const installPlugin = async (plugin) => {
     plugin.path = `plugins/${plugin.path}/index.sh`;
   }
 
-  const { name, scheme } = plugin;
+  const { name, scheme, config={} } = plugin;
   if (name) echo(chalk.yellow(`Installing plugin { name: ${name} }`));
 
   if (scheme === 'file') {
     const { path } = plugin;
-    await $()`./${path} install`;
+    await $`./${path} install --config='${JSON.stringify(config)}'`;
+    // await $`./${path} install --config='${JSON.stringify(config)}'`.pipe(process.stdout);
 
     if (name) echo(chalk.green(`Plugin installed { name: ${name} }`));
     return;
@@ -109,6 +110,11 @@ await docker.assert({
   args: ["--restart=no", "--net=kind", `--volume=${config.metadata.name}:/var/lib/registry`, "-e REGISTRY_HTTP_ADDR=0.0.0.0:6000"],
   image: 'registry:2'
 });
+
+if (config.spec.kind.version !== '1.30') {
+  echo(chalk.green(`Installing CNI plugin`));
+  installPlugin(config.spec.kind.cniPlugin || 'builtin://cilium');
+}
 
 echo(chalk.green(`Installing services`));
 const services = [];
