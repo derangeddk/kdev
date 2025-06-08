@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/tls
+metadata:
+  name: {{ .Values.clusterName }}-selfsigned-ca
+  labels:
+    controller.cert-manager.io/fao: "true"
+  annotations:
+    cert-manager.io/alt-names: ""
+    cert-manager.io/certificate-name: {{ .Values.clusterName }}-selfsigned-ca
+    cert-manager.io/common-name: {{ .Values.clusterName }}-selfsigned-ca
+    cert-manager.io/ip-sans: ""
+    cert-manager.io/issuer-group: cert-manager.io
+    cert-manager.io/issuer-kind: ClusterIssuer
+    cert-manager.io/issuer-name: selfsigned-issuer
+    cert-manager.io/uri-sans: ""
+data:
+  tls.crt: {{ index .Values "tls.crt" }}
+  tls.key: {{ index .Values "tls.key" }}
