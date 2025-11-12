@@ -12,7 +12,7 @@ if (!nodes.length) {
 }
 
 for await (const node of nodes) {
-  echo(`Starting node ${chalk.green(node)}`);
+  echo(`Asserting running node ${chalk.green(node)}`);
   await docker.start({ name: node });
 }
 
@@ -27,5 +27,5 @@ try {
 }
 echo(chalk.green(`Context switched to cluster { name: ${config.metadata.name} }`));
 
-echo(`Starting registry ${chalk.green(config.metadata.name)}`);
+echo(`Asserting running registry ${chalk.green(config.metadata.name)}`);
 await docker.start({ name: config.metadata.name });
