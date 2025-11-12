@@ -4,7 +4,7 @@ metadata:
   name: local-deranged-dk
 spec:
   kind:
-    version: "1.32"
+    version: "1.34"
   config:
     domain: local.deranged.dk
     registry: registry.local.deranged.dk
