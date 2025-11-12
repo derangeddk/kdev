@@ -15,7 +15,7 @@ if (!command) {
     process.exit(1);
 }
 
-await assertTools();
+if (command !== "tools") await assertTools();
 
 try {
     await import(`./${command}.mjs`);
