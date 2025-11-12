@@ -98,3 +98,4 @@ This project also creates a local container image registry, which can be used fo
 - temporary files should include kdev in its name for recognition, and reduce their lifetime
 - detect too-many-open-files issue: https://kind.sigs.k8s.io/docs/user/known-issues/#pod-errors-due-to-too-many-open-files
 - let ingress controller schedule on pre-existing label instead of specific ignress-only label
+- add required-kdev-version to kdevconfig.yaml
