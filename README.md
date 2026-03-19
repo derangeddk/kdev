@@ -11,6 +11,14 @@
 - [Skaffold](https://skaffold.dev) for installing services
 - [Helm](https://helm.sh) for installing helm charts
 
+## Quick start
+
+Here's how to quickly get set up and start using `kdev`:
+Run `kdev init` in your terminal of choice. Type `y` when prompted with `Do you want to create a default config file here? [y/N]`.
+This will configure the stock config for the cluster in your project.
+Next run `kdev run`, this will fire up a local kind cluster, with 2 workers and a single control plane, and connect you to it.
+Running `kubectl get pods -A` will list all of the default workloads that comes with the cluster.
+
 ## Commands
 
 All `kdev` commands will search for a valid config in your current working directory or its parents.
