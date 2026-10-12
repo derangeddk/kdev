@@ -113,10 +113,8 @@ await docker.assert({
   image: 'registry:2'
 });
 
-if (config.spec.kind.version !== '1.30') {
-  echo(chalk.green(`Installing CNI plugin`));
-  await installPlugin(config.spec.kind.cniPlugin || 'builtin://cilium');
-}
+echo(chalk.green(`Installing CNI plugin`));
+await installPlugin(config.spec.kind.cniPlugin || 'builtin://cilium');
 
 echo(chalk.green(`Installing services`));
 const services = [];
@@ -124,21 +122,6 @@ const services = [];
 // Add extra kind-related resources
 await installPlugin({ url: 'builtin://extra-kind-resources', config: config.spec.config, silent: true });
 
-// for 1.30 we install calico
-if (config.spec.kind.version === '1.30') {
-  echo(chalk.yellow(`Using calico for networking`));
-
-  // Install calico, first the operator and then the resources
-  services.push(async () => {
-    await installService({ dir: `${import.meta.dirname}/../services/calico-operator` });
-    await installService({ dir: `${import.meta.dirname}/../services/calico-resources` });
-  });
-}
-
-// for 1.30 we install nginx ingress controller, but in the future, users install their own or via a plugin
-if (config.spec.kind.version === '1.30') {
-  services.push(installService({ name: 'nginx-ingress-controller', dir: `${import.meta.dirname}/../services/nginx-ingress-controller` }));
-}
 
 // Install custom services
 if (config.spec.services) {
