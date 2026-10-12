@@ -12,7 +12,7 @@ const defaultConfig = {
     },
     spec: {
         kind: {
-            version: "1.34",
+            kubernetesVersion: "1.37",
         },
         config: {
             domain: "local.deranged.dk",
