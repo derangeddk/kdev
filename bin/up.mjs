@@ -34,6 +34,8 @@ const installPlugin = async (plugin) => {
   const { name, scheme, config: pluginConfig={}, silent=false } = plugin;
   if (name && !silent) echo(chalk.yellow(`Installing plugin { name: ${name} }`));
 
+  pluginConfig.kdev = config.spec.config;
+
   if (scheme === 'file') {
     const { path } = plugin;
     await $`${packageRoot}/${path} install --config='${JSON.stringify(pluginConfig)}' --clusterName='${config.metadata.name}'`;
@@ -116,22 +118,23 @@ await docker.assert({
 echo(chalk.green(`Installing CNI plugin`));
 await installPlugin(config.spec.kind.cniPlugin || 'builtin://cilium');
 
-echo(chalk.green(`Installing services`));
-const services = [];
-
 // Add extra kind-related resources
-await installPlugin({ url: 'builtin://extra-kind-resources', config: config.spec.config, silent: true });
+await installPlugin({ url: 'builtin://extra-kind-resources', silent: true });
 
 
-// Install custom services
-if (config.spec.services) {
-  services.push(...config.spec.services.map(async service => {
-    await installService({ name: service, dir: `${import.meta.dirname}/../services/${service}` });
-  }));
+if (config.spec.services?.length) {
+  echo(chalk.green(`Installing services`));
+  const services = [];
+
+  // Install custom services
+  if (config.spec.services) {
+    services.push(...config.spec.services.map(async service => {
+      await installService({ name: service, dir: `${import.meta.dirname}/../services/${service}` });
+    }));
+  }
+
+  await Promise.all(services);
 }
-
-await Promise.all(services);
-
 
 // Install custom plugins
 if (config.spec.plugins) {

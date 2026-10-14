@@ -7,19 +7,6 @@ cd "$(dirname "$0")" || exit 1;
 COMMAND=$1;
 
 if [ "$COMMAND" == "install" ]; then
-  CONFIG=""
-
-  for arg in "$@"; do
-    if [[ $arg == --config=* ]]; then CONFIG="${arg#--config=}"; fi
-  done
-
-  echo "$CONFIG" | yq -p=json > .values.yaml;
-
-  skaffold run 2> /dev/null;
-  rm .values.yaml
-fi
-
-if [ "$COMMAND" == "install" ]; then
   CLUSTER_NAME=""
   CONFIG=""
 

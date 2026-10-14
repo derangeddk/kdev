@@ -5,3 +5,8 @@ metadata:
 spec:
   type: ExternalName
   externalName: {{ .Values.clusterName }}-registry
+  ports:
+  - name: http
+    port: 6000
+    protocol: TCP
+    targetPort: 6000
