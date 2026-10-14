@@ -1,3 +1,4 @@
 domain: example.local.deranged.dk
 image: nginx
 clusterIssuer: selfsigned-issuer
+ingressClassName: contour
