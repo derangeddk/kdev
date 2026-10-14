@@ -1,0 +1,18 @@
+configInline:
+  enableExternalNameService: true
+  cluster:
+    dns-lookup-family: v4
+
+envoy:
+  nodeSelector:
+    ingress-ready: "true"
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+
+  service:
+    type: NodePort
+    nodePorts:
+      http: 30080
+      https: 30443

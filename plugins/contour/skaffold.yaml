@@ -1,0 +1,16 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: contour
+deploy:
+  helm:
+    releases:
+      - name: contour
+        repo: https://projectcontour.github.io/helm-charts/
+        remoteChart: contour
+        version: 0.8.0
+        valuesFiles: [ values-0.8.0.yaml, values-local.yaml ]
+      - name: contour-kdev-extras
+        chartPath: chart
+        version: 0.0.0
+        valuesFiles: [ .values.yaml ]

@@ -1,0 +1,14 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: registry-proxy
+  namespace: kube-public
+spec:
+  virtualhost:
+    fqdn: {{ .Values.kdev.registry }}
+  routes:
+    - conditions:
+      - prefix: /
+      services:
+        - name: local-registry
+          port: 6000
